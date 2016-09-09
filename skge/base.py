@@ -4,6 +4,7 @@ from collections import defaultdict
 from skge.param import Parameter, AdaGrad
 import timeit
 import pickle
+import logging
 
 _cutoff = 30
 
@@ -129,8 +130,11 @@ class StochasticTrainer(object):
         idx = np.arange(len(xys))
         self.batch_size = np.ceil(len(xys) / self.nbatches)
         batch_idx = np.arange(self.batch_size, len(xys), self.batch_size)
+        
+        logging.debug("Training for {} epochs".format(self.max_epochs))
 
         for self.epoch in range(1, self.max_epochs + 1):
+            logging.debug("Epoch {}/{}".format(self.epoch, self.max_epochs))
             # shuffle training examples
             self._pre_epoch()
             shuffle(idx)
